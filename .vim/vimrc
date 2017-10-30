@@ -1,4 +1,4 @@
-runtime! autoload/pathogen.vim
+execute pathogen#infect()
 
 syntax on
 
@@ -23,6 +23,7 @@ augroup vimrc
   autocmd GuiEnter * set columns=120 lines=70 number
 augroup END
 
+" Easily move between splits
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
@@ -62,7 +63,7 @@ set smartcase
 map <Leader><space> :nohl<cr>
 
 " Don't scroll off the edge of the page
-set scrolloff=5
+set scrolloff=10
 
 " This uses Ack.vim to search for the word under the cursor
 nnoremap <leader><bs> :Ag! '\b<c-r><c-w>\b'<cr>
@@ -74,6 +75,16 @@ let NERDTreeShowHidden=1
 let g:NERDTreeDirArrows=0
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>fnt :NERDTreeFind<CR>
+
+" ctrlp.vim config
+if get(g:, 'loaded_ctrlp', 1)
+  let g:ctrlp_match_window_reversed = 0
+  let g:ctrlp_working_path_mode = 'a'
+  let g:ctrlp_max_height = 20
+  let g:ctrlp_match_window_bottom = 0
+  let g:ctrlp_switch_buffer = 0
+  let g:ctrlp_custom_ignore = '\v(\.DS_Store|\.sass-cache|\.scssc|tmp|\.bundle|\.git|node_modules|vendor|bower_components|deps|_build)$'
+endif
 
 " BufExplorer
 noremap <leader>bb :BufExplorer<CR>

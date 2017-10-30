@@ -12,13 +12,13 @@ repos=(
   airblade/vim-gitgutter
   altercation/vim-colors-solarized
   christoomey/vim-tmux-navigator
+  ctrlpvim/ctrlp.vim
   ervandew/supertab
   godlygeek/tabular
   haya14busa/incsearch.vim
   itchyny/lightline.vim
   jgdavey/tslime.vim
   jgdavey/vim-turbux
-  junegunn/fzf.vim
   justinmk/vim-sneak
   kana/vim-textobj-user
   mileszs/ack.vim
