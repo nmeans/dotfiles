@@ -1,0 +1,110 @@
+runtime! autoload/pathogen.vim
+
+syntax on
+
+filetype plugin indent on
+
+set visualbell
+
+set wildmenu
+set wildmode=list:longest,full
+
+set splitright
+set splitbelow
+
+set hidden
+
+set guifont=Monaco:h16
+set guioptions-=T guioptions-=e guioptions-=L guioptions-=r
+set shell=bash
+
+augroup vimrc
+  autocmd!
+  autocmd GuiEnter * set columns=120 lines=70 number
+augroup END
+
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" vim tab navigation
+nnoremap th :tabfirst<CR>
+nnoremap tj :tabprev<CR>
+nnoremap tk :tabnext<CR>
+nnoremap tl :tablast<CR>
+nnoremap tc :tabclose<CR>
+nnoremap tn :tabnew<CR>
+
+" disable arrow navigation keys
+inoremap  <Up>    <NOP>
+inoremap  <Down>  <NOP>
+inoremap  <Left>  <NOP>
+inoremap  <Right> <NOP>
+noremap   <Up>    <NOP>
+noremap   <Down>  <NOP>
+noremap   <Left>  <NOP>
+noremap   <Right> <NOP>
+
+" show line numbers
+set number
+
+" format JSON with jq
+nnoremap <Leader>j :%!cat % <bar> jq '.'<CR>
+
+" Better search behavior
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" Unhighlight search results
+map <Leader><space> :nohl<cr>
+
+" Don't scroll off the edge of the page
+set scrolloff=5
+
+" This uses Ack.vim to search for the word under the cursor
+nnoremap <leader><bs> :Ag! '\b<c-r><c-w>\b'<cr>
+nnoremap <leader>a :Ag
+
+" NERDTree configuration
+let NERDTreeIgnore=['\~$', 'tmp', '\.git', '\.bundle', '.DS_Store', 'tags', '.swp']
+let NERDTreeShowHidden=1
+let g:NERDTreeDirArrows=0
+map <Leader>n :NERDTreeToggle<CR>
+map <Leader>fnt :NERDTreeFind<CR>
+
+" BufExplorer
+noremap <leader>bb :BufExplorer<CR>
+
+set softtabstop=2 shiftwidth=2 expandtab
+
+" add any extra local config
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+endif
+
+" add project-specific .vimrc files as long as we're not editing dotfiles
+if getcwd() != $HOME && getcwd() != expand("$HOME/dotfiles")
+  if filereadable(expand('.vimrc'))
+    source .vimrc
+  endif
+endif
+
+" toggle quickfix with <Leader> q
+let g:toggle_list_no_mappings=1
+nmap <script> <silent> <Leader>q :call ToggleQuickfixList()<CR>
+
+" Disable vim backups
+set nobackup
+set nowritebackup
+
+" Disable swapfile
+set noswapfile
+
+" Disable undofile
+set noundofile
+
+set background=dark
+colorscheme solarized
