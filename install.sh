@@ -72,8 +72,8 @@ done
 echo "Setting up vim plugins..."
 .vim/update.sh
 
-echo "Setting up git..."
-cp $basedir/.gitconfig.base $HOME/.gitconfig
+# echo "Setting up git..."
+# cp $basedir/.gitconfig.base $HOME/.gitconfig
 
 echo "Done."
 
