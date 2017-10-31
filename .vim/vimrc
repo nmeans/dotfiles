@@ -65,9 +65,12 @@ map <Leader><space> :nohl<cr>
 " Don't scroll off the edge of the page
 set scrolloff=10
 
+" Tell ack.vim to use Silver Searcher
+let g:ackprg = 'ag --vimgrep --smart-case'
+
 " This uses Ack.vim to search for the word under the cursor
-nnoremap <leader><bs> :Ag! '\b<c-r><c-w>\b'<cr>
-nnoremap <leader>a :Ag
+nnoremap <leader><bs> :Ack! '\b<c-r><c-w>\b'<cr>
+nnoremap <leader>a :Ack
 
 " NERDTree configuration
 let NERDTreeIgnore=['\~$', 'tmp', '\.git', '\.bundle', '.DS_Store', 'tags', '.swp']
