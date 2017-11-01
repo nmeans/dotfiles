@@ -24,11 +24,11 @@ class TmuxWeather
       "partly-cloudy-night" => "☁"
     }
 
-    def initialize(temperature, icon, humidity, wind_speed, wind_bearing)
+    def initialize(temperature, icon, humidity, wind_speed, wind_gust, wind_bearing)
       @temperature = "#{temperature.round}º"
       @icon = ICONS.fetch(icon, "")
       @humidity = "#{(humidity * 100).round}%"
-      @wind = "#{wind_dir(wind_bearing)}#{wind_speed.round}"
+      @wind = "#{wind_dir(wind_bearing)}#{wind_speed.round}-#{wind_gust.round}"
     end
 
     def wind_dir(wind_bearing)
@@ -67,6 +67,7 @@ class TmuxWeather
       data.fetch("icon"),
       data.fetch("humidity"),
       data.fetch("windSpeed", 0),
+      data.fetch("windGust", 0),
       data.fetch("windBearing", 0)
     )
   end
@@ -76,15 +77,15 @@ class TmuxWeather
   end
 
   def new_weather_string
-    weather_string = fetch_weather.to_s
-    File.open(CACHE_FILE, "w") { |file| file.write(weather_string) }
-    weather_string
+    wx_string = fetch_weather.to_s
+    File.open(CACHE_FILE, "w") { |file| file.write(wx_string) }
+    wx_string
   end
 
   def cached_weather_string
     return false unless File.exist?(CACHE_FILE)
-    return false unless File.mtime(CACHE_FILE) > (Time.now - (15*60))
-    return File.read(CACHE_FILE)
+    return false unless File.mtime(CACHE_FILE) > (Time.now - (15 * 60))
+    File.read(CACHE_FILE)
   end
 end
 
