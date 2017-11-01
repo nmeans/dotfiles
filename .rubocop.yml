@@ -1025,11 +1025,6 @@ Style/RedundantReturn:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-explicit-return'
   Enabled: true
 
-Style/RedundantSelf:
-  Description: "Don't use self where it's not needed."
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-self-unless-required'
-  Enabled: true
-
 Style/RegexpLiteral:
   Description: 'Use / or %r around regular expressions.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#percent-r'
@@ -1055,11 +1050,6 @@ Style/Semicolon:
 Style/SignalException:
   Description: 'Checks for proper usage of fail and raise.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#fail-method'
-  Enabled: true
-
-Style/SingleLineBlockParams:
-  Description: 'Enforces the names of some block params.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#reduce-blocks'
   Enabled: true
 
 Style/SingleLineMethods:
