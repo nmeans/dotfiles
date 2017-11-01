@@ -1,0 +1,91 @@
+#!/usr/bin/env ruby
+
+# Expects a Forecast.io api key to be made available via a FORECAST_IO env variable.
+
+require "json"
+require "open-uri"
+
+class TmuxWeather
+  CACHE_FILE = File.join(Dir.home, ".tmux_wx.cache")
+
+  class Weather
+    attr_reader :temperature, :icon, :humidity, :wind
+
+    ICONS = {
+      "clear-day" => "☀",
+      "clear-night" => "☾",
+      "rain" => "☂",
+      "snow" => "☃",
+      "sleet" => "☃",
+      "wind" => "⚑",
+      "fog" => "☁",
+      "cloudy" => "☁",
+      "partly-cloudy-day" => "☁",
+      "partly-cloudy-night" => "☁"
+    }
+
+    def initialize(temperature, icon, humidity, wind_speed, wind_bearing)
+      @temperature = "#{temperature.round}º"
+      @icon = ICONS.fetch(icon, "")
+      @humidity = "#{(humidity * 100).round}%"
+      @wind = "#{wind_dir(wind_bearing)}#{wind_speed.round}"
+    end
+
+    def wind_dir(wind_bearing)
+      directions = %w(N NE E SE S SW W NW)
+      normalized_bearing = wind_bearing + 23
+      normalized_bearing -= 360 if normalized_bearing > 360
+      directions[(normalized_bearing / 45.0).round - 1]
+    end
+
+    def to_s
+      "#{icon} #{temperature}/#{humidity}/#{wind}"
+    end
+  end
+
+  def self.weather_string
+    new.weather_string
+  end
+
+  def forecastio_key
+    ENV["FORECASTIO_KEY"]
+  end
+
+  def fetch_coordinates
+    uri = URI.parse("https://freegeoip.net/json")
+    data = JSON.parse(uri.read)
+    [data["latitude"], data["longitude"]]
+  end
+
+  def fetch_weather
+    coords = fetch_coordinates.join(",")
+    excludes = "minutely,hourly,daily,alerts,flags"
+    uri = URI.parse("https://api.darksky.net/forecast/#{forecastio_key}/#{coords}?exclude=#{excludes}")
+    data = JSON.parse(uri.read).fetch("currently")
+    Weather.new(
+      data.fetch("temperature"),
+      data.fetch("icon"),
+      data.fetch("humidity"),
+      data.fetch("windSpeed", 0),
+      data.fetch("windBearing", 0)
+    )
+  end
+
+  def weather_string
+    cached_weather_string || new_weather_string
+  end
+
+  def new_weather_string
+    weather_string = fetch_weather.to_s
+    File.open(CACHE_FILE, "w") { |file| file.write(weather_string) }
+    weather_string
+  end
+
+  def cached_weather_string
+    return false unless File.exist?(CACHE_FILE)
+    return false unless File.mtime(CACHE_FILE) > (Time.now - (15*60))
+    return File.read(CACHE_FILE)
+  end
+end
+
+puts TmuxWeather.weather_string
