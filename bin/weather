@@ -20,8 +20,8 @@ class TmuxWeather
       "wind" => "⚑",
       "fog" => "☁",
       "cloudy" => "☁",
-      "partly-cloudy-day" => "☁",
-      "partly-cloudy-night" => "☁"
+      "partly-cloudy-day" => "☀☁",
+      "partly-cloudy-night" => "☾☁"
     }
 
     def initialize(temperature, icon, humidity, wind_speed, wind_gust, wind_bearing)
