@@ -1,0 +1,9 @@
+#!/usr/bin/env osascript
+# Opens Things 3 if it's not running and brings it to the front.
+
+tell application "Things3"
+  launch
+  reopen
+  activate
+  show list "Today"
+end tell
