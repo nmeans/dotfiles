@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-# Expects a Forecast.io api key to be made available via a FORECAST_IO env variable.
+# Expects a Forecast.io api key to be made available via a FORECASTIO_KEY env variable.
+# Expects a ipgeolocation.io key to be made available via an IPGEOLOCATIONIO_KEY env variable.
 
 require "json"
 require "open-uri"
@@ -25,7 +26,7 @@ class TmuxWeather
     }
 
     def initialize(temperature, icon, humidity, wind_speed, wind_gust, wind_bearing)
-      @temperature = "#{temperature.round}º"
+      @temperature = "#{temperature.round}°"
       @icon = ICONS.fetch(icon, "")
       @humidity = "#{(humidity * 100).round}%"
       @wind = "#{wind_dir(wind_bearing)}#{wind_speed.round}-#{wind_gust.round}"
@@ -51,8 +52,12 @@ class TmuxWeather
     ENV["FORECASTIO_KEY"]
   end
 
+  def ipgeolocationio_key
+    ENV["IPGEOLOCATIONIO_KEY"]
+  end
+
   def fetch_coordinates
-    uri = URI.parse("https://freegeoip.net/json")
+    uri = URI.parse("https://api.ipgeolocation.io/ipgeo?apiKey=#{ipgeolocationio_key}")
     data = JSON.parse(uri.read)
     [data["latitude"], data["longitude"]]
   end

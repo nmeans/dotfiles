@@ -13,6 +13,7 @@ repos=(
   altercation/vim-colors-solarized
   christoomey/vim-tmux-navigator
   ctrlpvim/ctrlp.vim
+  elixir-editors/vim-elixir
   ervandew/supertab
   godlygeek/tabular
   haya14busa/incsearch.vim
@@ -23,6 +24,7 @@ repos=(
   kana/vim-textobj-user
   mileszs/ack.vim
   milkypostman/vim-togglelist
+  mkitt/pigment
   nathanaelkane/vim-indent-guides
   nelstrom/vim-textobj-rubyblock
   scrooloose/nerdtree
